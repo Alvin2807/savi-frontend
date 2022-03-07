@@ -1,15 +1,15 @@
 <template>
-  <hello-world />
+<sistema-basico/>
 </template>
 
 <script>
-  import HelloWorld from '../components/HelloWorld'
+  import SistemaBasico from '../components/SistemaBasico.vue'
 
   export default {
     name: 'Home',
 
     components: {
-      HelloWorld,
+      SistemaBasico
     },
   }
 </script>
