@@ -1,8 +1,9 @@
 <template>
-  <v-app style="background:#EEEEEE">
+  <v-app style="background:#ECEFF1">
       <v-navigation-drawer
       v-model="drawer"
        app
+       class="elevation-1"
       >
         <template v-slot:prepend>
             <v-list-item two-line>
@@ -36,7 +37,8 @@
                 <v-list-item 
                     v-for="child in item.items"
                     :key="child.title"
-                    link
+                    link 
+                    :to="child.path" 
                 >
                     <v-list-item-content>
                         <v-list-item-title v-text="child.title"></v-list-item-title>
@@ -55,13 +57,13 @@
           <v-app-bar-nav-icon @click="drawer =! drawer"></v-app-bar-nav-icon>
           <v-spacer></v-spacer>
           <v-toolbar-title class="overline">
-              {{tituloSistema}}
+            <img height="40"  :src="require('../assets/ventas.png')"/>
+            {{tituloSistema.toUpperCase()}}
+            <img height="40"  :src="require('../assets/iventario.png')"/>
           </v-toolbar-title>
           <v-spacer></v-spacer>
-          <v-main>
-              <router-view/>
-          </v-main>
       </v-app-bar>
+    <router-view/>
   </v-app>
 </template>
 <script>
@@ -73,10 +75,17 @@ export default {
             titulo:-1,
             items:[
                 {
-                    action:'category',
-                    items:[{title:'Listado de categorías'}],
-                    title:'Categorías'
-                }
+                    action:'space_dashboard',
+                    items:
+                    [
+                        {title:'Listado de categorías', path:'/categorias'},
+                        {title: 'Listado de marcas', path:'/listado-de-marcas'}
+                    ]
+                        ,
+                    title:'Parametros'
+                },
+
+               
             ]
            
             
