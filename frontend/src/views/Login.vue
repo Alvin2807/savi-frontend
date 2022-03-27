@@ -2,22 +2,19 @@
 <v-app>
 <login-iniciar/>
 <v-container>
-    <v-card max-width="600px" class="mx-auto elevation-5" height="550">
-        <v-toolbar height="120" flat>
+    <v-card max-width="400px" class="mx-auto elevation-5" height="450">
+        <v-toolbar height="70" flat>
             <v-toolbar-title class="mx-auto">
-                <img height="100" :src="require('../assets/usuario.png')"/>
+                <img height="70" class="mt-8" :src="require('../assets/usuario.png')"/>
             </v-toolbar-title>
         </v-toolbar>
         <v-card-text>
             <div class="text-center">
-                <h3 class="text-h5">Iniciar Session</h3>
+                <h3 class="text-h5 mt-5">Iniciar Session</h3>
             </div>
            
                 <v-form ref="validacion">
                     <v-row>
-                    <div class="text-left mt-8">
-                        <h3 class="text-h6 mx-8">Usuario</h3>
-                    </div>
                         <v-col
                             cols="12"
                             sm="6"
@@ -29,21 +26,15 @@
                                 prepend-inner-icon="mdi-account-circle" 
                                 color="indigo darken-4"
                                 autocomplete="off"
-                                class="caption mx-5"
+                                class="caption mx-5 mt-5"
                                 dense
                                 id="usuario"
                                 outlined
-                                height="50"
+                                height="20"
                                 :rules="$rules.usuarioRules"
                             >
                             </v-text-field>
                         </v-col>
-
-                        <div class="text-left">
-                            <h3 class="text-h6 mx-8">
-                                Contraseña
-                            </h3>
-                        </div>
 
                         <v-col
                             cols="12"
@@ -63,7 +54,7 @@
                                 outlined
                                 id="contraseña"
                                 class="caption mx-5"
-                                height="50"
+                                height="20"
                                 :rules="$rules.contraseñaRules"
                             >
                             </v-text-field>
@@ -81,7 +72,6 @@
                     dark
                     x-large
                     width="300"
-                    rounded
                     @click="accederSistema()"
                 >
                     Entrar

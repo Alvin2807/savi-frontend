@@ -8,7 +8,7 @@
         <template v-slot:prepend>
             <v-list-item two-line>
                 <v-list-item-avatar size="70">
-                    <img :src="require('../assets/usuario.png')">
+                  <v-icon size="100">account_circle</v-icon>
                 </v-list-item-avatar>
                 
                 <v-list-item-content>
@@ -17,6 +17,26 @@
                 </v-list-item-content>
             </v-list-item>
         </template>
+        <v-divider></v-divider>
+       
+      
+        <v-list
+            dense
+            nav
+        >
+            <v-list-item
+            v-for="item in menu"
+            :key="item.title"
+            >
+            <v-list-item-icon>
+                <v-icon>{{ item.icon }}</v-icon>
+            </v-list-item-icon>
+
+            <v-list-item-content>
+                <v-list-item-title>{{ item.title }}</v-list-item-title>
+            </v-list-item-content>
+            </v-list-item>
+        </v-list>
         <v-divider></v-divider>
 
         <v-list>
@@ -27,6 +47,7 @@
                 :prepend-icon="item.action"
                 no-action
                 color="indigo darken-4"
+                dense
             >
                 <template v-slot:activator>
                   <v-list-item-content>
@@ -78,15 +99,18 @@ export default {
                     action:'space_dashboard',
                     items:
                     [
-                        {title:'Listado de categorías', path:'/categorias'},
-                        {title: 'Listado de marcas', path:'/listado-de-marcas'}
+                        {title:'Categorías', path:'/categorias'},
+                        {title: 'Marcas', path:'/listado-de-marcas'},
+                        {title:'Modelos y Marcas', path:'modelos-y-marcas'}
                     ]
                         ,
                     title:'Parametros'
                 },
+            ],
 
-               
-            ]
+            menu: [
+                { title: 'Menu Principal', icon: 'menu' },
+            ],
            
             
         };

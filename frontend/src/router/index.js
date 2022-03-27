@@ -31,6 +31,12 @@ const routes = [
        path:'/listado-de-marcas',
        name:'Marcas',
        component: ()  => import('../views/Marcas.vue')
+     },
+
+     { 
+       path:'/modelos-y-marcas',
+       name:'Modelos.vue',
+       component: () => import('../views/Modelos.vue')
      }
 
     ]

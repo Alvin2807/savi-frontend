@@ -31,7 +31,6 @@
                             <v-btn 
                                 color="indigo darken-4"
                                 class="white--text mt-3"
-                                large
                                 @click="registrarMarca()"
                             >
                                 <v-icon class="mx-1">add</v-icon>
@@ -99,8 +98,6 @@
                                         <v-btn 
                                             color="red"
                                             class="white--text mr-3"
-                                            large
-                                            width="150"
                                             @click="salir()"
                                         >
                                             cancelar
@@ -108,14 +105,134 @@
                                         <v-btn 
                                             color="indigo darken-4"
                                             class="white--text"
-                                            large
-                                            width="150"
                                             @click="guardar()"
                                         >
                                             guardar
                                         </v-btn>
                                     </v-card-actions>
                                     <v-spacer></v-spacer>
+                                </v-card>
+                            </v-dialog>
+
+                            <!--Agregar Modelos-->
+                            <v-dialog 
+                                v-model="dialogModelos"
+                                transition="fab-transition"
+                                max-width="600px"
+                            >
+                                <v-card>
+                                    <v-toolbar class="elevation-1" flat height="100" color="primary" dark>
+                                        <v-toolbar-title class="mx-auto">
+                                            <h3 class="text-h6">FORMULARIO DE REGISTRAR MODELO</h3>
+                                        </v-toolbar-title>
+                                    </v-toolbar>
+                                    <v-card-text>
+                                        <v-container>
+                                           <v-form ref="validarModelo">
+                                               <v-row>
+                                                    <v-col 
+                                                        cols="12"
+                                                        sm="6"
+                                                        md="12"
+                                                    >
+                                                        <v-text-field 
+                                                            v-model="editedItem.nombre_marca"
+                                                            label="Nombre de marca"
+                                                            color="indigo darken-4"
+                                                            maxLength="100"
+                                                            autocomplete="off"
+                                                            readonly
+                                                            dense
+                                                            class=" caption my-input mt-5"
+                                                            :rules="$rules.required"
+                                                        >
+                                                        </v-text-field>
+                                                    </v-col>
+                                               </v-row>
+                                                
+                                                <div
+                                                    v-for="(modelos, index) in editedItem.modelos"
+                                                    v-bind:key="modelos + index"
+                                                >
+                                                    <v-row>
+                                                        <v-col 
+                                                            cols="12"
+                                                            sm="6"
+                                                            md="12"
+                                                        >
+                                                            <v-text-field 
+                                                                v-model="modelos.nombre_modelo"
+                                                                label="Nombre del modelo"
+                                                                color="indigo darken-4"
+                                                                maxLength="100"
+                                                                autocomplete="off"
+                                                                clearable
+                                                                dense
+                                                                class=" caption mt-5 my-input"
+                                                                :rules="$rules.required"
+                                                            >
+                                                            </v-text-field>
+                                                        </v-col>
+                                                        
+                                                    </v-row>
+                                                    <v-tooltip right>
+                                                        <template v-slot:activator="{on, attrs}">
+                                                            <v-btn 
+                                                                color="red darken-4"
+                                                                text
+                                                                sm
+                                                                class="white--text mx-2 mt-3"
+                                                                v-on="on"
+                                                                v-bind="attrs"
+                                                                @click="quitarModelo(index)"
+                                                            >
+                                                                <v-icon>remove</v-icon>
+                                                                quitar
+                                                            </v-btn>
+                                                        </template>
+                                                        <span>Quitar de la lista</span>
+                                                    </v-tooltip>
+
+                                                </div>
+                                                <v-row>
+                                                    <v-tooltip right>
+                                                        <template v-slot:activator="{on, attrs}">
+                                                            <v-btn 
+                                                                color="indigo darken-4"
+                                                                text
+                                                                sm
+                                                                class="white--text mx-5 mt-5"
+                                                                v-on="on"
+                                                                v-bind="attrs"
+                                                                @click="addModelo()"
+                                                            >
+                                                                <v-icon>add</v-icon>
+                                                                agregar
+                                                            </v-btn>
+                                                        </template>
+                                                        <span>Agregar a la lista</span>
+                                                    </v-tooltip>
+                                                </v-row>
+                                                </v-form>
+                                        </v-container>
+                                    </v-card-text>
+                                    <v-card-actions>
+                                        <v-spacer></v-spacer>
+                                        <v-btn 
+                                            color="red"
+                                            class="white--text"
+                                            @click="cancelarModelo()"
+                                        >
+                                            cancelar
+                                        </v-btn>
+                                        <v-btn 
+                                            color="indigo darken-4"
+                                            class="white--text"
+                                            @click="registrarModelo()"
+                                        >
+                                            registrar
+                                        </v-btn>
+                                    </v-card-actions>
                                 </v-card>
 
                             </v-dialog>
@@ -134,13 +251,21 @@
                                 loading-text="Cargando marcas por favor espere..."
                             >
                                 <template v-slot:[`item.actions`]="{ item }">
-                                    <v-icon
-                                        md
-                                        class="mr-2"
-                                        @click="traerEditarMarca(item)"
-                                    >
-                                        mdi-pencil
-                                    </v-icon>
+                                    <v-tooltip left>
+                                        <template v-slot:activator="{on, attrs}">
+                                            <v-icon
+                                                md
+                                                v-on="on"
+                                                v-bind="attrs"
+                                                class="mr-2"
+                                                @click="traerEditarMarca(item)"
+                                            >
+                                                mdi-pencil
+                                            </v-icon>
+                                        </template>
+                                        <span>Editar</span>
+                                    </v-tooltip>
+                                  
                                     <v-icon
                                         md
                                         class="mx-2"
@@ -148,13 +273,22 @@
                                     >
                                         mdi-delete
                                     </v-icon>
-                                    <v-icon
-                                        md
-                                        class="mx-2"
-                                        @click="deleteItem(item)"
-                                    >
-                                        post_add
-                                    </v-icon>
+
+                                    <v-tooltip right>
+                                        <template v-slot:activator="{on,attrs}">
+                                            <v-icon
+                                                md
+                                                class="mx-2"
+                                                v-on="on"
+                                                v-bind="attrs"
+                                                @click="agregarModelos(item)"
+                                            >
+                                                post_add
+                                            </v-icon>
+                                        </template>
+                                        <span>Agregar Modelo</span>
+                                    </v-tooltip>
+                                
                                 </template>
                             </v-data-table>
                        </v-form>
@@ -176,16 +310,25 @@ export default {
            busqueda:'',
            cargarDatos:true,
            dialogEditarMarca:false,
+           dialogModelos:false,
            datos:{
                nombre_marca:''
            },
            datosEditar:{
                nombre_marca:''
            },
+           editedItem:{
+               nombre_marca:'',
+               modelos:[ 
+                   {
+                       nombre_modelo:''
+                   }
+               ]
+           },
            cabecera:
            [
-               {text:'Nombre de marca', value:'nombre_marca'},
-                 { text: 'Editar/Eliminar/Agregar Modelo', value: 'actions', sortable: false },
+               {text:'Nombre de marca', value:'nombre_marca', class:'blue-grey lighten-3'},
+               { text: 'Editar/Eliminar/Agregar Modelo', value: 'actions', sortable: false,class:'blue-grey lighten-3' },
            ],
            marcas:[]
         };
@@ -320,6 +463,49 @@ export default {
                 confirmButtonColor:'#B71C1C'
 
             })
+        },
+
+        agregarModelos: function (item) { 
+            this.editedIndex = this.marcas.indexOf(item)
+            this.editedItem.id_marca = item.id_marca
+            this.editedItem.nombre_marca = item.nombre_marca
+            this.dialogModelos = true
+        },
+
+        addModelo: function () {
+            this.editedItem.modelos.push({ 
+                nombre_modelo:''
+            })
+        },
+
+        quitarModelo: function (index) { 
+            if (this.editedItem.modelos.length > 1) {
+                this.editedItem.modelos.splice(index, 1)
+            } else if (this.editedItem.modelos.length == 1) {
+               Swal.fire({ 
+                    icon:'error',
+                    title:'Hubo un error',
+                    text:'Lo sentimos no se puede quitar este items de la lista',
+                    confirmButtonColor:'#B71C1C',
+
+                })
+            }
+        },
+
+        cancelarModelo: function () { 
+            this.resetearModelo();
+            this.dialogModelos = false
+        },
+
+        resetearModelo: function () { 
+            this.$refs.validarModelo.reset();
+            this.$refs.validarModelo.resetValidation();
+        },
+
+        registrarModelo: function () { 
+            if (this.$refs.validarModelo.validate()) {
+                console.log(this.editedItem)
+            }
         }
 
        
