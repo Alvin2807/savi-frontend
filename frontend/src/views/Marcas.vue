@@ -4,7 +4,7 @@
            <v-card>
                <v-toolbar flat class="elevation-0" height="50">
                    <v-toolbar-title class="mt-5">
-                       <h3 class="text-h6 mx-3">{{tituloFormulario.toUpperCase()}}</h3>
+                       <h3 class="text-h6 mx-3 mt-5">{{tituloFormulario.toUpperCase()}}</h3>
                    </v-toolbar-title>
                </v-toolbar>
                <v-card-text>
@@ -121,7 +121,7 @@
                                 max-width="600px"
                             >
                                 <v-card>
-                                    <v-toolbar class="elevation-1" flat height="100" color="primary" dark>
+                                    <v-toolbar class="elevation-1" flat height="100">
                                         <v-toolbar-title class="mx-auto">
                                             <h3 class="text-h6">FORMULARIO DE REGISTRAR MODELO</h3>
                                         </v-toolbar-title>
@@ -151,8 +151,8 @@
                                                </v-row>
                                                 
                                                 <div
-                                                    v-for="(modelos, index) in editedItem.modelos"
-                                                    v-bind:key="modelos + index"
+                                                    v-for="(modelo, index) in editedItem.modelos"
+                                                    v-bind:key="modelo + index"
                                                 >
                                                     <v-row>
                                                         <v-col 
@@ -161,7 +161,7 @@
                                                             md="12"
                                                         >
                                                             <v-text-field 
-                                                                v-model="modelos.nombre_modelo"
+                                                                v-model="modelo.nombre_modelo"
                                                                 label="Nombre del modelo"
                                                                 color="indigo darken-4"
                                                                 maxLength="100"
@@ -318,7 +318,7 @@ export default {
                nombre_marca:''
            },
            editedItem:{
-               nombre_marca:'',
+               id_marca:'',
                modelos:[ 
                    {
                        nombre_modelo:''
@@ -505,7 +505,26 @@ export default {
         registrarModelo: function () { 
             if (this.$refs.validarModelo.validate()) {
                 console.log(this.editedItem)
+                 API
+                .post('registrarModelo', this.editedItem)
+                .then(respuesta=>{ 
+                    if (respuesta.data.ok) {
+                       this.mostrarListaMarcas()
+                       this.mensajeModeloAprobado(respuesta.data.registroModelo) 
+                       this.dialogModelos = false
+                    }
+                }) 
             }
+        },
+
+        mensajeModeloAprobado:function (registroModelo) { 
+            Swal.fire({ 
+                icon:'success',
+                title:'Genial!',
+                text: registroModelo,
+                showConfirmButton:false,
+                timer:2000
+            })
         }
 
        
